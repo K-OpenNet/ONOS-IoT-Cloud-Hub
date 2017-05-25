@@ -3,11 +3,9 @@
 The IoT-Cloud Hub is a component of the K-Cluster and serves as a bridgehead for IoT things. The IoT-Cloud Hub conducts overall control of the IoT, collecting data from the IoT device and validating the data first. It also controls the data path using SDN to securely collect the data and manages the IoT device and the SDN-enabled switch. IoT-Cloud Hub targets SmartX IoT-Cloud Services for small-scale IoT things. The SmartX IoT-Cloud Service is configured using the Kafka Messaging System, and IoT things transfers data using the wired / wifi / LoRaWAN communication interface and is transferred to the IoT-Cloud Hub via SDN-enabled switches.
 
 
-### OpenSource Software for IoT-Cloud Hub
+## OpenSource Software for IoT-Cloud Hub
 
-
-ONOS : Open Network Operating System
-====================================
+### ONOS : Open Network Operating System
 
 ### What is ONOS?
 ONOS is a new SDN network operating system designed for high availability,
@@ -36,19 +34,19 @@ Checkout our [website](http://www.onosproject.org) and our
 
 
 
-IO Visor : BCC, eBPF
-====================================
+### IO Visor : BCC, eBPF
 
-![BCC Logo](images/logo2.png)
-# BPF Compiler Collection (BCC)
+### What is IO Visor?
+The IO Visor Project is an open source project and a community of developers to accelerate the innovation, development, and sharing of virtualized in-kernel IO services for tracing, analytics, monitoring, security and networking functions. It builds on the Linux community to bring open, flexible, distributed, secure and easy to operate technologies that enable any stack to run efficiently on any physical infrastructure.
 
+
+### BPF Compiler Collection (BCC)
 BCC is a toolkit for creating efficient kernel tracing and manipulation
 programs, and includes several useful tools and examples. It makes use of 
 extended BPF (Berkeley Packet Filters), formally known as eBPF, a new feature
 that was first added to Linux 3.15. Much of what BCC uses requires Linux 4.1
 and above.
 
-eBPF was [described by](https://lkml.org/lkml/2015/4/14/232) Ingo Molnár as:
-
-> One of the more interesting features in this cycle is the ability to attach eBPF programs (user-defined, sandboxed bytecode executed by the kernel) to kprobes. This allows user-defined instrumentation on a live kernel image that can never crash, hang or interfere with the kernel negatively.
+### eBPF (extended Berkeley Packet Filter)
+The IO Visor community has created many excellent sources of information and samples on eBPF from beginner to advanced levels.
 
