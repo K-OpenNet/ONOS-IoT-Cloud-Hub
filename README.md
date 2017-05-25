@@ -41,11 +41,7 @@ The IO Visor Project is an open source project and a community of developers to 
 
 
 ### BPF Compiler Collection (BCC)
-BCC is a toolkit for creating efficient kernel tracing and manipulation
-programs, and includes several useful tools and examples. It makes use of 
-extended BPF (Berkeley Packet Filters), formally known as eBPF, a new feature
-that was first added to Linux 3.15. Much of what BCC uses requires Linux 4.1
-and above.
+BCC is a toolkit for creating efficient kernel tracing and manipulation programs, and includes several useful tools and examples.
 
 ### eBPF (extended Berkeley Packet Filter)
 The IO Visor community has created many excellent sources of information and samples on eBPF from beginner to advanced levels.
