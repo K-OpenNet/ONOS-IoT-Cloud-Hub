@@ -1,1 +1,3 @@
 # ONOS-IoT-Cloud-Hub
+
+The IoT-Cloud Hub is a component of the K-Cluster and serves as a bridgehead for IoT things. The IoT-Cloud Hub conducts overall control of the IoT, collecting data from the IoT device and validating the data first. It also controls the data path using SDN to securely collect the data and manages the IoT device and the SDN-enabled switch. IoT-Cloud Hub targets SmartX IoT-Cloud Services for small-scale IoT things. The SmartX IoT-Cloud Service is configured using the Kafka Messaging System, and IoT things transfers data using the wired / wifi / LoRaWAN communication interface and is transferred to the IoT-Cloud Hub via SDN-enabled switches.
