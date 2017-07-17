@@ -13,12 +13,12 @@ import java.io.InputStream;
 /**
  * Created by netcsnuc on 5/11/17.
  */
-public class Parsing_Template {
-    private static String USER_ID ="hub";
-    private static String IP="210.125.84.113";
-    private static String PASSWORD="netcs007bang";
+public class Template_Handler {
+    private static String USER_ID ="netcs";
+    private static String IP="210.125.84.55";
+    private static String PASSWORD="fn!xo!ska!";
 
-    public static void Read_Remote_Template() throws Exception{
+    public void Read_Remote_Template() throws Exception{
         JSch jsch = new JSch();
 
         Session session = jsch.getSession(USER_ID,IP,22);
@@ -26,7 +26,7 @@ public class Parsing_Template {
         session.setConfig("StrictHostKeyChecking","no");
         session.connect();
 
-        String command = "cat template";
+        String command = "cat template2";
 
         ChannelExec channel = (ChannelExec) session.openChannel("exec");
         channel.setCommand(command);
@@ -58,8 +58,9 @@ public class Parsing_Template {
         channel.disconnect();
         session.disconnect();
     }
-    public static void JSON_Parsing(String template) throws ParseException {
+    public void JSON_Parsing(String template) throws ParseException {
         org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
+
         JSONObject jsonObject = (JSONObject) jsonParser.parse(template);
         JSONArray InfoArray = (JSONArray) jsonObject.get("Service");
         /*
@@ -68,8 +69,8 @@ public class Parsing_Template {
         JSONArray InfoArray = (JSONArray) jsonObject.get("devices");
         */
 
-        ResourcePool resource = ResourcePool.getInstance();
-        ResourcePool.template_INFO_list[] tlist = resource.getTemplate_INFO_lists();
+        ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
+        ResourcePool_Manager.template_INFO_list[] tlist = resource.getTemplate_INFO_lists();
 
        for (int i=0;i<InfoArray.size();i++){
             JSONObject Object = (JSONObject) InfoArray.get(i);
@@ -101,6 +102,7 @@ public class Parsing_Template {
            for (int j=0;j<InfoArray2.size();j++){
                Object2 = (JSONObject) InfoArray2.get(j);
                tlist[i].consumer_IP[j] = Object2.get("IP").toString();
+
                //tlist[i].consumer_Port[j] = Object2.get("Port").toString();
            }
            InfoArray2 = (JSONArray) Object.get("Producer");

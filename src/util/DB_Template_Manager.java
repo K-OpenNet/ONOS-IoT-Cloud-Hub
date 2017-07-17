@@ -3,19 +3,19 @@ package util;
 /**
  * Created by netcsnuc on 5/11/17.
  */
-public class Compare_DB_Template {
+public class DB_Template_Manager {
 
-    private static ResourcePool resource = ResourcePool.getInstance();
-    private static ResourcePool.intents_Info_list[] ilist = resource.getIntent_INFO_list();
-    private static ResourcePool.flow_Info_list[] flist = resource.getFlow_INFO_list();
-    private static ResourcePool.switch_Info_list[] slist = resource.getSwitch_INFO_list();
-    private static ResourcePool.host_Info_list[] hlist = resource.getHost_INFO_list();
-    private static ResourcePool.link_Info_list[] llist = resource.getLink_INFO_list();
-    private static ResourcePool.template_INFO_list[] tlist = resource.getTemplate_INFO_lists();
-    private static ResourcePool.serviceHosts_INFO_list[] service_hostINFOlists = resource.getServiceHost_INFO_list();
+    private  ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
+    private  ResourcePool_Manager.intents_Info_list[] ilist = resource.getIntent_INFO_list();
+    private  ResourcePool_Manager.flow_Info_list[] flist = resource.getFlow_INFO_list();
+    private  ResourcePool_Manager.switch_Info_list[] slist = resource.getSwitch_INFO_list();
+    private  ResourcePool_Manager.host_Info_list[] hlist = resource.getHost_INFO_list();
+    private  ResourcePool_Manager.link_Info_list[] llist = resource.getLink_INFO_list();
+    private  ResourcePool_Manager.template_INFO_list[] tlist = resource.getTemplate_INFO_lists();
+    private  ResourcePool_Manager.serviceHosts_INFO_list[] service_hostINFOlists = resource.getServiceHost_INFO_list();
     private static int MAX=100;
 
-    public static void Comapre(){
+    public void Comapre(){
 
         // make Service_Host Object
         for (int i=0;i<MAX;i++){
@@ -67,7 +67,7 @@ public class Compare_DB_Template {
         //there is no host in the real SDN OpenFlow topology, find that host identifier
         for (int i=0;i<MAX;i++){
             if (service_hostINFOlists[i].IP!=null){
-                System.out.println("ID: "+ service_hostINFOlists[i].ID+" IP: "+ service_hostINFOlists[i].IP+" Type: "+ service_hostINFOlists[i].Type+" Service: "+ service_hostINFOlists[i].Service);
+               // System.out.println("ID: "+ service_hostINFOlists[i].ID+" IP: "+ service_hostINFOlists[i].IP+" Type: "+ service_hostINFOlists[i].Type+" Service: "+ service_hostINFOlists[i].Service);
             }
             for (int j=0;j<MAX;j++){
                 if (tlist[i].producer_IP[j]!=null){

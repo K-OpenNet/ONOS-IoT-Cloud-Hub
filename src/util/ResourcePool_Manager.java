@@ -1,12 +1,16 @@
 package util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by netcsnuc on 5/9/17.
  */
-public class ResourcePool {
+public class ResourcePool_Manager {
 
     public static int MAX=100;
-    private static ResourcePool resourcePool = null;
+
+    private static ResourcePool_Manager resourcePoolManager = null;
     switch_Info_list[] slist = new switch_Info_list[MAX];
     host_Info_list[] hlist = new host_Info_list[MAX];
     link_Info_list[] llist = new link_Info_list[MAX];
@@ -15,21 +19,22 @@ public class ResourcePool {
     template_INFO_list[] template_INFO_lists = new template_INFO_list[MAX];
     serviceHosts_INFO_list[] service_host_list = new serviceHosts_INFO_list[MAX];
     path_INFO_list[] path_list = new path_INFO_list[MAX];
+    steering_path_INFO_list[] steer_list = new steering_path_INFO_list[MAX];
 
 
-    private ResourcePool(){
+    private ResourcePool_Manager(){
         System.out.println("Singleton Started");
     }
-    public static ResourcePool getInstance(){
-        if(resourcePool == null)
-            synchronized (ResourcePool.class) {
-            if (resourcePool == null){
-                resourcePool = new ResourcePool();
+    public static ResourcePool_Manager getInstance(){
+        if(resourcePoolManager == null)
+            synchronized (ResourcePool_Manager.class) {
+            if (resourcePoolManager == null){
+                resourcePoolManager = new ResourcePool_Manager();
                 System.out.println("New Singleton Instance !");
             }
                 System.out.println("Existing SingleTon Instance !");
         }
-        return resourcePool;
+        return resourcePoolManager;
     }
     public switch_Info_list[] getSwitch_INFO_list() {
         return slist;
@@ -54,6 +59,10 @@ public class ResourcePool {
     public template_INFO_list[] getTemplate_INFO_lists() { return template_INFO_lists; }
 
     public serviceHosts_INFO_list[] getServiceHost_INFO_list() { return service_host_list; }
+
+    public steering_path_INFO_list[] getSteering_path_Info_list() { return steer_list;}
+
+    public path_INFO_list[] getPath_Info_list() { return path_list;}
 
     public switch_Info_list[] switch_init() {
         switch_Info_list[] list = new switch_Info_list[MAX];
@@ -122,6 +131,14 @@ public class ResourcePool {
             list[i]= new path_INFO_list();
         }
         path_list = list;
+        return list;
+    }
+    public steering_path_INFO_list[] steer_init(){
+        steering_path_INFO_list[] list = new steering_path_INFO_list[MAX];
+        for (int i=0;i<list.length;i++) {
+            list[i] = new steering_path_INFO_list();
+        }
+        steer_list = list;
         return list;
     }
     public class switch_Info_list
@@ -204,11 +221,25 @@ public class ResourcePool {
         public String[] p_b_path = new String[MAX];
         public String[] p_z_path = new String[MAX];
         public String[] b_c_path = new String[MAX];
+        public String[] temp_b_c_path = new String[MAX];
+        public String[] temp_p_b_path = new String[MAX];
         public String[] b_z_path = new String[MAX];
         public String[] z_c_path = new String[MAX];
         public String type;
         public String state;
         public String description;
         public String service;
+        public List<String> z_c_list= new ArrayList<String>();
+        public List<String> p_b_list = new ArrayList<String>();
+        public List<String> p_z_list = new ArrayList<String>();
+        public List<String> b_c_list = new ArrayList<String>();
+        public List<String> b_z_list = new ArrayList<String>();
+    }
+    public class steering_path_INFO_list {
+        public String[] p_b_path = new String[MAX];
+        public String[] p_z_path = new String[MAX];
+        public String[] b_c_path = new String[MAX];
+        public String[] b_z_path = new String[MAX];
+        public String[] z_c_path = new String[MAX];
     }
 }

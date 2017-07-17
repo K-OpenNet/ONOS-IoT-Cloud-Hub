@@ -17,12 +17,12 @@ import java.net.URL;
 /**
  * Created by netcsnuc on 12/8/16.
  */
-public class ONOS_REST {
+public class ONOS_API_Handler {
 
-    private static String Controller_IP="203.237.53.141:8181";
+    private static String Controller_IP="203.237.53.145:8181";
     public static int MAX=100;
 
-    public static ResourcePool.flow_Info_list[] GET_ONOS_INFO_Flow(ResourcePool.flow_Info_list[] list) throws IOException, ParseException{
+    public ResourcePool_Manager.flow_Info_list[] GET_ONOS_INFO_Flow(ResourcePool_Manager.flow_Info_list[] list) throws IOException, ParseException{
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
         String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/flows";
@@ -66,7 +66,7 @@ public class ONOS_REST {
         return list;
     }
 
-    public static ResourcePool.intents_Info_list[] GET_ONOS_Info_Intent(ResourcePool.intents_Info_list[] list) throws IOException, ParseException {
+    public ResourcePool_Manager.intents_Info_list[] GET_ONOS_Info_Intent(ResourcePool_Manager.intents_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
         String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/intents";
@@ -87,7 +87,7 @@ public class ONOS_REST {
         return list;
     }
 
-    public static ResourcePool.link_Info_list[] GET_ONOS_INFO_Link(ResourcePool.link_Info_list[] list) throws IOException, ParseException {
+    public ResourcePool_Manager.link_Info_list[] GET_ONOS_INFO_Link(ResourcePool_Manager.link_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
         String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/links";
@@ -115,7 +115,7 @@ public class ONOS_REST {
     }
 
 
-    public static ResourcePool.host_Info_list[] GET_ONOS_INFO_Host(ResourcePool.host_Info_list[] list) throws IOException, ParseException {
+    public ResourcePool_Manager.host_Info_list[] GET_ONOS_INFO_Host(ResourcePool_Manager.host_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
         String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/hosts";
@@ -131,12 +131,21 @@ public class ONOS_REST {
             list[i].ID = Object.get("id").toString();
             list[i].MAC = Object.get("mac").toString();
             list[i].vlan = Object.get("vlan").toString();
+            int ip_len = Object.get("ipAddresses").toString().length();
+
+            if (ip_len>3){
+                list[i].IP = Object.get("ipAddresses").toString().subSequence(2,ip_len-2).toString();
+            }
+                //System.out.println("^^ IP: "+Object.get("ipAddresses").toString().subSequence(2,ip_len-2));
+
+            /*
             if (Object.get("ipAddresses").toString().length()==18)
-                list[i].IP = Object.get("ipAddresses").toString().substring(2,16);
+                list[i].IP = Object.get("ipAddresses").toString().subSequence(2,ip_len-2).toString();
             else if (Object.get("ipAddresses").toString().length()==17)
                 list[i].IP = Object.get("ipAddresses").toString().substring(2,15);
             else if (Object.get("ipAddresses").toString().length()==16)
                 list[i].IP = Object.get("ipAddresses").toString().substring(2,14);
+            */
             JSONObject Object2 = (JSONObject) Object.get("location");
             list[i].location = Object2.get("elementId").toString();
             list[i].location += "/"+Object2.get("port").toString();
@@ -145,7 +154,7 @@ public class ONOS_REST {
     }
 
 
-    public static ResourcePool.switch_Info_list[] GET_ONOS_INFO_Switch(ResourcePool.switch_Info_list[] list) throws IOException, ParseException {
+    public ResourcePool_Manager.switch_Info_list[] GET_ONOS_INFO_Switch(ResourcePool_Manager.switch_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
         String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/devices";
@@ -198,7 +207,7 @@ public class ONOS_REST {
         return list;
     }
 
-    public static ResourcePool.path_INFO_list[] GET_ONOS_INFO_Path(ResourcePool.path_INFO_list[] list, String service) throws  IOException, ParseException {
+    public ResourcePool_Manager.path_INFO_list[] GET_ONOS_INFO_Path(ResourcePool_Manager.path_INFO_list[] list, String service) throws  IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
         String PATH_API_URL= "http://"+Controller_IP+"/onos/v1/paths/";
@@ -210,8 +219,8 @@ public class ONOS_REST {
         String[] consumer = new String[MAX];
 
 
-        ResourcePool resource = ResourcePool.getInstance();
-        ResourcePool.serviceHosts_INFO_list[] shlist = resource.getServiceHost_INFO_list();
+        ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
+        ResourcePool_Manager.serviceHosts_INFO_list[] shlist = resource.getServiceHost_INFO_list();
 
         for (int i=0;i<shlist.length;i++) {
             if (shlist[i].ID!=null && service.equals(shlist[i].Service)){
@@ -261,10 +270,13 @@ public class ONOS_REST {
                                 JSONArray InfoArray2 = (JSONArray) object.get("links");
                                 for (int t=0; t<InfoArray2.size();t++){
                                     JSONObject Object2 = (JSONObject) InfoArray2.get(t);
-                                    list[k].p_b_path[t] = Object2.get("src").toString();
-                                    list[k].p_b_path[t] += "%"+Object2.get("dst");
-                                    list[k].description = "Producer <-> Broker";
+                                    String path = Object2.get("src").toString();
+                                    path += "%"+Object2.get("dst");
+                                    //list[j].p_b_path[t] = Object2.get("src").toString();
+                                    //list[j].p_b_path[t] += "%"+Object2.get("dst");
+                                    list[j].description = "Producer <-> Broker";
                                     list[i].service = service;
+                                    list[j].p_b_list.add(path);
                                 }
                             }
                             //System.out.println("Path for Service: "+service);
@@ -287,10 +299,13 @@ public class ONOS_REST {
                                 JSONArray InfoArray2 = (JSONArray) object.get("links");
                                 for (int t=0; t<InfoArray2.size();t++){
                                     JSONObject Object2 = (JSONObject) InfoArray2.get(t);
-                                    list[k].p_z_path[t] = Object2.get("src").toString();
-                                    list[k].p_z_path[t] += "%"+Object2.get("dst");
-                                    list[i].description = "Producer <-> Zookeeper";
+                                    String path = Object2.get("src").toString();
+                                    path += "%"+Object2.get("dst");
+                                    //list[j].p_z_path[t] = Object2.get("src").toString();
+                                    //list[j].p_z_path[t] += "%"+Object2.get("dst");
+                                    list[j].description = "Producer <-> Zookeeper";
                                     list[i].service = service;
+                                    list[j].p_z_list.add(path);
                                 }
                             }
 
@@ -316,14 +331,21 @@ public class ONOS_REST {
                                 JSONArray InfoArray2 = (JSONArray) object.get("links");
                                 for (int t=0; t<InfoArray2.size();t++){
                                     JSONObject Object2 = (JSONObject) InfoArray2.get(t);
-                                    list[k].b_c_path[t] = Object2.get("src").toString();
-                                    list[k].b_c_path[t] += "%"+Object2.get("dst");
-                                    list[k].description = "Broker <-> Consumer";
+                                    String path = Object2.get("src").toString();
+                                    path += "%"+Object2.get("dst");
+                                    //list[j].b_c_path[t] = Object2.get("src").toString();
+                                    //list[j].b_c_path[t] += "%"+Object2.get("dst");
+                                    list[j].description = "Broker <-> Consumer";
                                     list[i].service = service;
+
+                                    //System.out.println("path: "+path);
+                                    list[i].b_c_list.add(path);
+                                    //System.out.println(" b_c_path: "+list[j].b_c_path[t]);
+                                    //System.out.println("K: "+k+" t: "+t+" J: "+j+" I: "+i);
                                 }
                             }
-                            //System.out.println("Path for Service: "+service);
-                            //System.out.println("Broker <-> Consumer "+buffer);
+                            //System.out.println(" Path for Service: "+service);
+                            //System.out.println(" +_+ Broker <-> Consumer "+buffer);
                             PATH_API_URL = ORIGIN;
                         }
                     }
@@ -342,10 +364,13 @@ public class ONOS_REST {
                                 JSONArray InfoArray2 = (JSONArray) object.get("links");
                                 for (int t=0; t<InfoArray2.size();t++){
                                     JSONObject Object2 = (JSONObject) InfoArray2.get(t);
-                                    list[k].b_z_path[t] = Object2.get("src").toString();
-                                    list[k].b_z_path[t] += "%"+Object2.get("dst");
-                                    list[k].description = "Broker <-> Zookeeper";
+                                    String path = Object2.get("src").toString();
+                                    path += "%"+Object2.get("dst");
+                                    //list[j].b_z_path[t] = Object2.get("src").toString();
+                                    //list[j].b_z_path[t] += "%"+Object2.get("dst");
+                                    list[j].description = "Broker <-> Zookeeper";
                                     list[i].service = service;
+                                    list[i].b_z_list.add(path);
                                 }
                             }
                             //System.out.println("Path for Service: "+service);
@@ -370,10 +395,18 @@ public class ONOS_REST {
                                 JSONArray InfoArray2 = (JSONArray) object.get("links");
                                 for (int t=0; t<InfoArray2.size();t++){
                                     JSONObject Object2 = (JSONObject) InfoArray2.get(t);
-                                    list[k].z_c_path[t] = Object2.get("src").toString();
-                                    list[k].z_c_path[t] += "%"+Object2.get("dst");
-                                    list[k].description = "Zookeeper <-> Consumer";
+                                    String path = Object2.get("src").toString();
+                                    //list[j].z_c_path[t] = Object2.get("src").toString();
+                                    //list[j].z_c_path[t] += "%"+Object2.get("dst");
+
+                                    path += "%"+Object2.get("dst");
+                                    list[j].description = "Zookeeper <-> Consumer";
                                     list[i].service = service;
+                                    list[i].z_c_list.add(path);
+                                    //System.out.println(" z_c_path: "+list[j].z_c_path[t]);
+                                    //System.out.println(" z_c_list: "+list[j].z_c_list);
+                                    //System.out.println("K: "+k+" t: "+t+" J: "+j+" I: "+i);
+                                    //System.out.println();
                                 }
                             }
                             //System.out.println("Path for Service: "+service);
@@ -388,7 +421,7 @@ public class ONOS_REST {
     }
 
 
-    private static String URL_REQUEST(String USERNAME, String PASSWORD, String DEVICE_API_URL, URL onos) throws IOException {
+    private String URL_REQUEST(String USERNAME, String PASSWORD, String DEVICE_API_URL, URL onos) throws IOException {
 
         try {
             onos = new URL(DEVICE_API_URL);
@@ -415,40 +448,7 @@ public class ONOS_REST {
         }
         return buffer;
     }
-
-    private static void DECIDE_INTENT(ResourcePool.switch_Info_list[] list) throws IOException {
-
-        //compare Template and real ONOS Info
-
-        /*
-        //Then Make intents
-        for (int i=0;i<template_device;i++){
-            for (int j =0; j<list.length;j++){
-                if (list[j].DPID==null)
-                    break;
-
-                if (template_device_ID.equals(list[j].DPID)){
-                    if (template_device_port_name.equals(list[j].port_name)){
-                        System.out.println("Device DPID: "+list[j].DPID+" Port status: CORRECT");
-                        if(template ingress ports are many){
-                            go to SingleToMultiple intent
-                        }
-                        else if(template egress ports are many){
-                            go to MultipleToSingle intent
-                        }
-                        else if(ingress port is one and egress port is one){
-                            go to PointToPoint intent
-                        }
-                    }
-                }
-            }
-        }
-        */
-       // PTP_INTENT("of:0000000000000001","1","2");
-       // PTP_INTENT("of:0000000000000001","2","1");
-    }
-
-    private static void PTP_INTENT(String DPID, String ingress, String egress) throws IOException {
+    private void PTP_INTENT(String DPID, String ingress, String egress) throws IOException {
         String USERNAME = "karaf";
         String PASSWORD = "karaf";
         String address = "http://"+Controller_IP+"/onos/v1/intents";
