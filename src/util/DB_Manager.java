@@ -14,7 +14,11 @@ import java.sql.Statement;
  * Created by netcsnuc on 2/20/17.
  */
 public class DB_Manager {
-    private static String DB_IP="203.237.53.145";
+    private static String DB_IP="jdbc:mysql://203.237.53.130";
+    private static String DB_ID="root";
+    private static String DB_PW="0070";
+
+
     public void Access()
     {
         try{
@@ -24,7 +28,8 @@ public class DB_Manager {
             System.out.println("DB success");
             String driver = "com.mysql.jdbc.Driver";
             Class.forName(driver).newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
+            //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
+            connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
             System.out.println("Opened database successfully");
             statement = connection.createStatement();
 
@@ -127,7 +132,8 @@ public class DB_Manager {
 
         try {
             Class.forName(driver).newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
+            //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
+            connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
             System.out.println("Opened database successfully and Start Compare! ");
             statement = connection.createStatement();
             statement.executeQuery("use netdb;");
@@ -191,8 +197,8 @@ public class DB_Manager {
 
         String driver = "com.mysql.jdbc.Driver";
         Class.forName(driver).newInstance();
-        connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-
+        //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
+        connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
         statement = connection.createStatement();
 
         statement.executeQuery("use netdb;");
@@ -216,8 +222,8 @@ public class DB_Manager {
 
         String driver = "com.mysql.jdbc.Driver";
         Class.forName(driver).newInstance();
-        connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-
+        //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
+        connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
         statement = connection.createStatement();
 
         statement.executeQuery("use netdb;");
@@ -242,8 +248,8 @@ public class DB_Manager {
 
         String driver = "com.mysql.jdbc.Driver";
         Class.forName(driver).newInstance();
-        connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-
+        //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
+        connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
         statement = connection.createStatement();
 
         statement.executeQuery("use netdb;");
