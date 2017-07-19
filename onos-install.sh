@@ -1,4 +1,13 @@
 #!/bin/bash
+
+#
+# ---------------------------------------------|
+# You Must Start This Script Like This Command |
+# . onos-installer.sh                          |
+#   Written by Heebum Yoon                     |
+# ---------------------------------------------|
+#
+
 echo "################################ONOS Installer Start!"
 
 echo "################################Ubuntu JAVA 8 Install Start"
@@ -65,5 +74,5 @@ sudo bash -c 'echo "source \$ONOS_ROOT/tools/dev/bash_profile" >> /etc/bash.bash
 source /etc/bash.bashrc
 
 mvn clean install
-source /etc/bash.bashrc
+
 
