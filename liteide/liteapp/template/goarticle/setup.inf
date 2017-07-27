@@ -1,7 +1,0 @@
-[SETUP]
-NAME = "Go Present Article File"
-AUTHOR = visualfc
-INFO = go article file(*.article)
-TYPE = file
-FILES = root.article
-OPEN = root.article
