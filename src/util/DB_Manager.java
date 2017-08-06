@@ -14,14 +14,16 @@ import java.sql.Statement;
  * Created by netcsnuc on 2/20/17.
  */
 public class DB_Manager {
-    private static String DB_IP="jdbc:mysql://203.237.53.130";
-    private static String DB_ID="root";
-    private static String DB_PW="0070";
+    //private static String DB_IP="jdbc:mysql://203.237.53.130";
+    //private static String DB_ID="root";
+    //private static String DB_PW="0070";
 
 
     public void Access()
     {
         try{
+            ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
+
             Connection connection =null;
             Statement statement = null;
 
@@ -29,7 +31,7 @@ public class DB_Manager {
             String driver = "com.mysql.jdbc.Driver";
             Class.forName(driver).newInstance();
             //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-            connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
+            connection = DriverManager.getConnection(resource.DB_IP, resource.DB_ID, resource.DB_PW);
             System.out.println("Opened database successfully");
             statement = connection.createStatement();
 
@@ -131,9 +133,11 @@ public class DB_Manager {
         boolean flag = false;
 
         try {
+
+            //ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
             Class.forName(driver).newInstance();
             //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-            connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
+            connection = DriverManager.getConnection(resource.DB_IP, resource.DB_ID, resource.DB_PW);
             System.out.println("Opened database successfully and Start Compare! ");
             statement = connection.createStatement();
             statement.executeQuery("use netdb;");
@@ -195,10 +199,11 @@ public class DB_Manager {
         Statement statement = null;
 
 
+        ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
         String driver = "com.mysql.jdbc.Driver";
         Class.forName(driver).newInstance();
         //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-        connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
+        connection = DriverManager.getConnection(resource.DB_IP, resource.DB_ID, resource.DB_PW);
         statement = connection.createStatement();
 
         statement.executeQuery("use netdb;");
@@ -219,11 +224,11 @@ public class DB_Manager {
         Connection connection =null;
         Statement statement = null;
 
-
+        ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
         String driver = "com.mysql.jdbc.Driver";
         Class.forName(driver).newInstance();
         //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-        connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
+        connection = DriverManager.getConnection(resource.DB_IP, resource.DB_ID, resource.DB_PW);
         statement = connection.createStatement();
 
         statement.executeQuery("use netdb;");
@@ -249,13 +254,14 @@ public class DB_Manager {
         String driver = "com.mysql.jdbc.Driver";
         Class.forName(driver).newInstance();
         //connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1", "root", "secrete");
-        connection = DriverManager.getConnection(DB_IP, DB_ID, DB_PW);
+        ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
+        connection = DriverManager.getConnection(resource.DB_IP, resource.DB_ID, resource.DB_PW);
         statement = connection.createStatement();
 
         statement.executeQuery("use netdb;");
         System.out.println("Opened netdb database successfully");
 
-        ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
+
         ResourcePool_Manager.host_Info_list[] hlist = resource.getHost_INFO_list();
         ResourcePool_Manager.switch_Info_list[] slist = resource.getSwitch_INFO_list();
         ResourcePool_Manager.flow_Info_list[] flist = resource.getFlow_INFO_list();

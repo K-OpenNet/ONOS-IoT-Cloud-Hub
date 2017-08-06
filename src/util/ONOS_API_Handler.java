@@ -18,17 +18,16 @@ import java.net.URL;
  * Created by netcsnuc on 12/8/16.
  */
 public class ONOS_API_Handler {
-
-    private static String Controller_IP="203.237.53.145:8181";
+    //private static String Controller_IP="203.237.53.145:8181";
     public static int MAX=100;
+    ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
 
     public ResourcePool_Manager.flow_Info_list[] GET_ONOS_INFO_Flow(ResourcePool_Manager.flow_Info_list[] list) throws IOException, ParseException{
-        String USERNAME= "karaf";
-        String PASSWORD = "karaf";
-        String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/flows";
+
+        String DEVICE_API_URL= "http://"+resource.Controller_IP_Port+"/onos/v1/flows";
         URL onos = null;
 
-        String buffer = URL_REQUEST(USERNAME,PASSWORD,DEVICE_API_URL,onos);
+        String buffer = URL_REQUEST(resource.Controller_ID,resource.Controller_Pw,DEVICE_API_URL,onos);
         org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(buffer);
         JSONArray InfoArray = (JSONArray) jsonObject.get("flows");
@@ -69,7 +68,7 @@ public class ONOS_API_Handler {
     public ResourcePool_Manager.intents_Info_list[] GET_ONOS_Info_Intent(ResourcePool_Manager.intents_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
-        String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/intents";
+        String DEVICE_API_URL= "http://"+resource.Controller_IP_Port+"/onos/v1/intents";
         URL onos = null;
 
         String buffer = URL_REQUEST(USERNAME,PASSWORD,DEVICE_API_URL,onos);
@@ -90,7 +89,7 @@ public class ONOS_API_Handler {
     public ResourcePool_Manager.link_Info_list[] GET_ONOS_INFO_Link(ResourcePool_Manager.link_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
-        String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/links";
+        String DEVICE_API_URL= "http://"+resource.Controller_IP_Port+"/onos/v1/links";
         URL onos = null;
 
         String buffer = URL_REQUEST(USERNAME,PASSWORD,DEVICE_API_URL,onos);
@@ -118,7 +117,7 @@ public class ONOS_API_Handler {
     public ResourcePool_Manager.host_Info_list[] GET_ONOS_INFO_Host(ResourcePool_Manager.host_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
-        String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/hosts";
+        String DEVICE_API_URL= "http://"+resource.Controller_IP_Port+"/onos/v1/hosts";
         URL onos = null;
 
         String buffer = URL_REQUEST(USERNAME,PASSWORD,DEVICE_API_URL,onos);
@@ -157,7 +156,7 @@ public class ONOS_API_Handler {
     public ResourcePool_Manager.switch_Info_list[] GET_ONOS_INFO_Switch(ResourcePool_Manager.switch_Info_list[] list) throws IOException, ParseException {
         String USERNAME= "karaf";
         String PASSWORD = "karaf";
-        String DEVICE_API_URL= "http://"+Controller_IP+"/onos/v1/devices";
+        String DEVICE_API_URL= "http://"+resource.Controller_IP_Port+"/onos/v1/devices";
         URL onos = null;
 
         String buffer = URL_REQUEST(USERNAME,PASSWORD,DEVICE_API_URL,onos);
@@ -208,10 +207,8 @@ public class ONOS_API_Handler {
     }
 
     public ResourcePool_Manager.path_INFO_list[] GET_ONOS_INFO_Path(ResourcePool_Manager.path_INFO_list[] list, String service) throws  IOException, ParseException {
-        String USERNAME= "karaf";
-        String PASSWORD = "karaf";
-        String PATH_API_URL= "http://"+Controller_IP+"/onos/v1/paths/";
-        String ORIGIN= "http://"+Controller_IP+"/onos/v1/paths/";
+        String PATH_API_URL= "http://"+resource.Controller_IP_Port+"/onos/v1/paths/";
+        String ORIGIN= "http://"+resource.Controller_IP_Port+"/onos/v1/paths/";
         URL onos = null;
         String[] producer = new String[MAX];
         String[] broker = new String[MAX];
@@ -259,7 +256,7 @@ public class ONOS_API_Handler {
                         if (broker[j]!=null){
                             PATH_API_URL += producer[i]+"/" + broker[j];
                             //System.out.println("PATH_API_URL: "+PATH_API_URL);
-                            String buffer = URL_REQUEST(USERNAME,PASSWORD,PATH_API_URL,onos);
+                            String buffer = URL_REQUEST(resource.Controller_ID,resource.Controller_Pw,PATH_API_URL,onos);
                             org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
                             JSONObject jsonObject = (JSONObject) jsonParser.parse(buffer);
                             JSONArray InfoArray = (JSONArray) jsonObject.get("paths");
@@ -288,7 +285,7 @@ public class ONOS_API_Handler {
                         if (zookeeper[j]!=null){
                             PATH_API_URL += producer[i]+"/" + zookeeper[j];
                             //System.out.println("PATH_API_URL: "+PATH_API_URL);
-                            String buffer = URL_REQUEST(USERNAME,PASSWORD,PATH_API_URL,onos);
+                            String buffer = URL_REQUEST(resource.Controller_ID,resource.Controller_Pw,PATH_API_URL,onos);
                             org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
                             JSONObject jsonObject = (JSONObject) jsonParser.parse(buffer);
                             JSONArray InfoArray = (JSONArray) jsonObject.get("paths");
@@ -320,7 +317,7 @@ public class ONOS_API_Handler {
                         if (consumer[j]!=null){
                             PATH_API_URL +=broker[i]+"/" +consumer[j];
                             //System.out.println("PATH_API_URL: "+PATH_API_URL);
-                            String buffer = URL_REQUEST(USERNAME,PASSWORD,PATH_API_URL,onos);
+                            String buffer = URL_REQUEST(resource.Controller_ID,resource.Controller_Pw,PATH_API_URL,onos);
                             org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
                             JSONObject jsonObject = (JSONObject) jsonParser.parse(buffer);
                             JSONArray InfoArray = (JSONArray) jsonObject.get("paths");
@@ -338,7 +335,7 @@ public class ONOS_API_Handler {
                                     list[j].description = "Broker <-> Consumer";
                                     list[i].service = service;
 
-                                    //System.out.println("path: "+path);
+                                    //System.out.println("^^path: "+path);
                                     list[i].b_c_list.add(path);
                                     //System.out.println(" b_c_path: "+list[j].b_c_path[t]);
                                     //System.out.println("K: "+k+" t: "+t+" J: "+j+" I: "+i);
@@ -353,7 +350,7 @@ public class ONOS_API_Handler {
                         if (zookeeper[j]!=null){
                             PATH_API_URL +=broker[i]+"/" +zookeeper[j];
                             //System.out.println("PATH_API_URL: "+PATH_API_URL);
-                            String buffer = URL_REQUEST(USERNAME,PASSWORD,PATH_API_URL,onos);
+                            String buffer = URL_REQUEST(resource.Controller_ID,resource.Controller_Pw,PATH_API_URL,onos);
                             org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
                             JSONObject jsonObject = (JSONObject) jsonParser.parse(buffer);
                             JSONArray InfoArray = (JSONArray) jsonObject.get("paths");
@@ -384,7 +381,7 @@ public class ONOS_API_Handler {
                         if (zookeeper[j]!=null){
                             PATH_API_URL +=consumer[i]+"/" +zookeeper[j];
                             //System.out.println("PATH_API_URL: "+PATH_API_URL);
-                            String buffer = URL_REQUEST(USERNAME,PASSWORD,PATH_API_URL,onos);
+                            String buffer = URL_REQUEST(resource.Controller_ID,resource.Controller_Pw,PATH_API_URL,onos);
                             org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
                             JSONObject jsonObject = (JSONObject) jsonParser.parse(buffer);
                             JSONArray InfoArray = (JSONArray) jsonObject.get("paths");
@@ -449,9 +446,8 @@ public class ONOS_API_Handler {
         return buffer;
     }
     private void PTP_INTENT(String DPID, String ingress, String egress) throws IOException {
-        String USERNAME = "karaf";
-        String PASSWORD = "karaf";
-        String address = "http://"+Controller_IP+"/onos/v1/intents";
+
+        String address = "http://"+resource.Controller_IP_Port+"/onos/v1/intents";
         URL onos=null;
 
         JSONObject ingressport = new JSONObject();
@@ -476,7 +472,7 @@ public class ONOS_API_Handler {
             onos = new URL(address);
             Authenticator.setDefault(new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(USERNAME,PASSWORD.toCharArray());
+                    return new PasswordAuthentication(resource.Controller_ID,resource.Controller_Pw.toCharArray());
                 }
             });
         }catch (MalformedURLException e){

@@ -17,17 +17,15 @@ import java.util.Set;
  */
 public class Intent_Installer {
 
-    private static String USER_ID ="karaf";
-    private static String IP="203.237.53.145";
-    private static String PASSWORD="karaf";
+    private  ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
     private  HashMap<String, String> ingress_map = new HashMap<String, String>();
     private  HashMap<String, String> egress_map = new HashMap<String, String>();
 
-    public static void Connect_to_ONOS_Controller(String command) throws Exception{
+    public void Connect_to_ONOS_Controller(String command) throws Exception{
 
         JSch jsch = new JSch();
-        Session session = jsch.getSession(USER_ID, IP, 8101);
-        session.setPassword(PASSWORD);
+        Session session = jsch.getSession(resource.Controller_ID, resource.Controoler_IP, 8101);
+        session.setPassword(resource.Controller_Pw);
         session.setConfig("StrictHostKeyChecking","no");
         session.connect();
 

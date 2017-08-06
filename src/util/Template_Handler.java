@@ -14,15 +14,15 @@ import java.io.InputStream;
  * Created by netcsnuc on 5/11/17.
  */
 public class Template_Handler {
-    private static String USER_ID ="netcs";
-    private static String IP="210.125.84.55";
-    private static String PASSWORD="fn!xo!ska!";
+
 
     public void Read_Remote_Template() throws Exception{
+
+        ResourcePool_Manager resource = ResourcePool_Manager.getInstance();
         JSch jsch = new JSch();
 
-        Session session = jsch.getSession(USER_ID,IP,22);
-        session.setPassword(PASSWORD);
+        Session session = jsch.getSession(resource.Template_ID,resource.Template_IP,22);
+        session.setPassword(resource.Template_PW);
         session.setConfig("StrictHostKeyChecking","no");
         session.connect();
 

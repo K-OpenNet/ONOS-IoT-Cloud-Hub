@@ -8,6 +8,21 @@ import java.util.List;
  */
 public class ResourcePool_Manager {
 
+    public static String DB_IP="jdbc:mysql://203.237.53.130";
+    public static String DB_ID="root";
+    public static String DB_PW="0070";
+
+    public static String Template_IP="210.125.84.55";
+    public static String Template_ID="netcs";
+    public static String Template_PW="fn!xo!ska!";
+
+    public static String Controoler_IP="203.237.53.130";
+    public static String Controller_IP_Port="203.237.53.130:8181";
+    public static String Controller_ID="karaf";
+    public static String Controller_Pw="karaf";
+
+
+
     public static int MAX=100;
 
     private static ResourcePool_Manager resourcePoolManager = null;
@@ -20,7 +35,8 @@ public class ResourcePool_Manager {
     serviceHosts_INFO_list[] service_host_list = new serviceHosts_INFO_list[MAX];
     path_INFO_list[] path_list = new path_INFO_list[MAX];
     steering_path_INFO_list[] steer_list = new steering_path_INFO_list[MAX];
-
+    B_C_Path[] B_C_Path = new B_C_Path[MAX];
+    P_B_Path[] P_B_Path = new P_B_Path[MAX];
 
     private ResourcePool_Manager(){
         System.out.println("Singleton Started");
@@ -63,6 +79,10 @@ public class ResourcePool_Manager {
     public steering_path_INFO_list[] getSteering_path_Info_list() { return steer_list;}
 
     public path_INFO_list[] getPath_Info_list() { return path_list;}
+
+    public B_C_Path[] getB_C_Path() { return B_C_Path; }
+
+    public P_B_Path[] getP_B_Path() { return P_B_Path; }
 
     public switch_Info_list[] switch_init() {
         switch_Info_list[] list = new switch_Info_list[MAX];
@@ -141,6 +161,23 @@ public class ResourcePool_Manager {
         steer_list = list;
         return list;
     }
+    public B_C_Path[] B_C_Path_init(){
+        B_C_Path[] list = new B_C_Path[MAX];
+        for (int i=0;i<list.length;i++){
+            list[i] = new B_C_Path();
+        }
+        B_C_Path = list;
+        return list;
+    }
+    public P_B_Path[] P_B_Path_init(){
+        P_B_Path[] list = new P_B_Path[MAX];
+        for (int i=0;i<list.length;i++){
+            list[i] = new P_B_Path();
+        }
+        P_B_Path = list;
+        return list;
+    }
+
     public class switch_Info_list
     {
         public String DPID;
@@ -242,4 +279,17 @@ public class ResourcePool_Manager {
         public String[] b_z_path = new String[MAX];
         public String[] z_c_path = new String[MAX];
     }
+    public class B_C_Path {
+        public String src;
+        public String dst;
+        public String[] arr = new String[MAX];
+        public String srcTOdst;
+    }
+    public class P_B_Path {
+        public String src;
+        public String dst;
+        public String[] arr = new String[MAX];
+        public String srcTOdst;
+    }
+
 }

@@ -33,8 +33,10 @@ public class Hub {
         ResourcePool_Manager.path_INFO_list[] path_list= resource.path_init();
         ResourcePool_Manager.template_INFO_list[] tlist= resource.template_init();
         ResourcePool_Manager.steering_path_INFO_list[] steer_list = resource.steer_init();
+        ResourcePool_Manager.B_C_Path[] B_C_Path = resource.B_C_Path_init();
+        ResourcePool_Manager.P_B_Path[] P_B_Path = resource.P_B_Path_init();
 
-        Intent_Installer installer = new Intent_Installer();
+        Intent_Installer2 installer = new Intent_Installer2();
         ONOS_API_Handler onos_APIHandler = new ONOS_API_Handler();
         Template_Handler parsingTemplate = new Template_Handler();
         DB_Manager DB = new DB_Manager();
